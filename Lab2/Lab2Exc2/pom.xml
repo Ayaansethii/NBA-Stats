@@ -12,7 +12,6 @@
 
     <name>Lab2Exc2</name>
 
-    <!-- Corrected and merged properties -->
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,7 +20,6 @@
     </properties>
 
     <dependencies>
-        <!-- Java EE Web API Dependency -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -32,7 +30,7 @@
 
     <build>
         <plugins>
-            <!-- Maven Compiler Plugin (Ensures Java 11 support) -->
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -43,11 +41,10 @@
                 </configuration>
             </plugin>
 
-            <!-- FIX: Updated Maven War Plugin to avoid API compatibility issues -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version> <!-- Latest stable version -->
+                <version>3.3.2</version> 
             </plugin>
         </plugins>
     </build>

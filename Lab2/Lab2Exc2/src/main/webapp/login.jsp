@@ -1,3 +1,8 @@
+<%@ page import="javax.servlet.http.HttpSession" %>
+<%
+    String errorMessage = (String) request.getAttribute("errorMessage");
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +23,9 @@
                 <input type="text" id="username" name="username" required>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
+                <% if (errorMessage != null){ %>
+                <p><%= errorMessage %></p>
+                <%}%>
                 <button type="submit">Login</button>
             </form>
         </div>
