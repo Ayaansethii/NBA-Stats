@@ -1,0 +1,3 @@
+USE NBASW;
+
+SELECT * FROM League;
