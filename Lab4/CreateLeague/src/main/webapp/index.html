@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<!-- For testing service only-->
+
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create League</title>
+</head>
+
+<body>
+    <h1>Create a New League</h1>
+    <form action="createLeagueServlet" method="post">
+        <label for="leagueName">League Name:</label>
+        <input type="text" id="leagueName" name="leagueName" required><br><br>
+        <label for="managerID">Manager ID:</label>
+        <input type="number" id="managerID" name="managerID" required><br><br>
+        <input type="submit" value="Create League">
+    </form>
+</body>
+</html>
