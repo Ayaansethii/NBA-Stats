@@ -6,9 +6,11 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.sql.*;
 
+import Helper.League;
+
 public class CreateLeague_CRUD {
 
-    public static boolean addLeague(String leagueName, int managerID) {
+    public static boolean addLeague(String leagueName, String managerID) {
         boolean inserted = false;
         String sql = "INSERT INTO League (leagueName, managerID) VALUES (?, ?)";
 
@@ -16,7 +18,7 @@ public class CreateLeague_CRUD {
              PreparedStatement stmt = con.prepareStatement(sql)) {
 
             stmt.setString(1, leagueName);
-            stmt.setInt(2, managerID);
+            stmt.setInt(2, Integer.parseInt(managerID));
 
             int rowsAffected = stmt.executeUpdate();
             inserted = rowsAffected > 0;
@@ -31,6 +33,27 @@ public class CreateLeague_CRUD {
             System.out.println("Error inserting league: " + e.getMessage());
         }
         return inserted;
+    }
+    
+    public static League getLeague(int leagueID) {
+        League league = new League();
+        String sql = "SELECT * FROM League WHERE leagueID = ?";
+        
+        try (Connection con = DBConfig.getCon(); 
+             PreparedStatement stmt = con.prepareStatement(sql)) {
+            
+            stmt.setInt(1, leagueID);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                league.setLeagueID(rs.getString("leagueID"));
+                league.setName(rs.getString("leagueName"));
+                league.setManagerID(rs.getString("managerID"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving league", e);
+        }
+        return league;
     }
 
     public static ArrayList<String> getAllLeagues() {
@@ -50,14 +73,17 @@ public class CreateLeague_CRUD {
     }
     
     
-    /*
     
+    /*
     // Test to see if Persistence class can access the DB
     // Check output terminal for result
     
     public static void main (String args[]){
         CreateLeague_CRUD test = new CreateLeague_CRUD();
-        test.addLeague("Bobby",11);
+        //test.addLeague("Bobby",11);
+        League l = test.getLeague(2);
+        System.out.println(l.getLeagueID() + " " + l.getName() + " " + l.getManagerID());
     }
     */
+    
 }

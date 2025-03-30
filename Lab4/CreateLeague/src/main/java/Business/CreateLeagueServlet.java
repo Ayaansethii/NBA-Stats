@@ -6,17 +6,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import Endpoint.LeagueRequest;
+import Helper.League;
 
 @WebServlet("/createLeagueServlet")
 public class CreateLeagueServlet extends HttpServlet {
-    private CreateLeagueService leagueService = new CreateLeagueService(); //object that creates leagues
+    private CreateLeague leagueService = new CreateLeague(); //object that creates leagues
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         // get user input
         String leagueName = request.getParameter("leagueName");
-        int managerID = Integer.parseInt(request.getParameter("managerID"));
+        String managerID = request.getParameter("managerID");
 
         // formatting for responses after league creation attempt
         response.setContentType("text/xml");
@@ -25,7 +25,7 @@ public class CreateLeagueServlet extends HttpServlet {
         boolean success = leagueService.createLeague(leagueName, managerID); // league is created: returns true is successful
         if (success) {
             
-            LeagueRequest Lreq = new LeagueRequest(); // class to get League attributes as XML
+            League Lreq = new League(); // class to get League attributes as XML
             Lreq.setName(leagueName);
             Lreq.setManagerID(managerID);
             
