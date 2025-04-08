@@ -1,0 +1,10 @@
+Frontend/Authenticate.class
+com/mycompany/frontend/resources/JakartaEE8Resource.class
+Persistence/ManagerDAO.class
+Persistence/DBConfig.class
+Helper/Manager.class
+Business/XMLParser.class
+Business/Business.class
+Helper/RestClient.class
+Frontend/FrontEnd.class
+com/mycompany/frontend/JakartaRestConfiguration.class
