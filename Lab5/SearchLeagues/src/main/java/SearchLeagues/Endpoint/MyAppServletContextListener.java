@@ -8,20 +8,22 @@ import javax.servlet.ServletContextListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.SSLException;
+import javax.servlet.annotation.WebListener;
 
+@WebListener
 public class MyAppServletContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Runnable r = () -> {
+            System.out.println("🚀 Starting KubeMQ listener thread...");
             try {
-                Messaging.Receiving_Events_Store("create_league_channel");
-            } catch (ServerAddressNotSuppliedException e) {
-                Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, e);
-            } catch (SSLException ex) {
-                Logger.getLogger(MyAppServletContextListener.class.getName()).log(Level.SEVERE, null, ex);
+                Messaging.Receiving_Events_Store("league_channel");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         };
+
         new Thread(r).start();
     }
 

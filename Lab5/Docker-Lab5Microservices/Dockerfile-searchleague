@@ -1,0 +1,7 @@
+FROM tomcat:8.5-jdk11-openjdk
+
+COPY SearchLeagues-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/SearchLeagues.war
+
+ENV JAVA_TOOL_OPTIONS="-DkubeMQAddress=kubemq:50000"
+
+EXPOSE 8080

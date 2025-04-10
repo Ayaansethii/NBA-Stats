@@ -1,7 +1,10 @@
-CREATE DATABASE IF NOT EXISTS LEAGUES_DBS;
-USE LEAGUES_DBS;
+CREATE DATABASE IF NOT EXISTS CreateLeagueDB;
+USE CreateLeagueDB;
 
-DROP TABLE League;
+
+-- Remove database creation/selection (Docker already creates LEAGUES_DB from ENV)
+
+DROP TABLE IF EXISTS League;
 
 CREATE TABLE League (
     leagueID INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,4 +12,5 @@ CREATE TABLE League (
     managerID INT NOT NULL  
 );
 
-INSERT INTO League (leagueName, managerID) VALUES ("NBA", 1);
+INSERT INTO League (leagueName, managerID) VALUES ("testjason", 1);
+

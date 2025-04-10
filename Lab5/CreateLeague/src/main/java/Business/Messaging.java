@@ -12,7 +12,8 @@ public class Messaging {
     public static void sendMessage(String message) throws IOException {
         String channelName = "league_channel";
         String clientID = "league-publisher";
-        String kubeMQAddress = System.getProperty("kubeMQAddress");
+        String kubeMQAddress = System.getProperty("kubeMQAddress", "kubemq:50000");
+
 
         System.out.println(" Sending message to KubeMQ: " + message);
         System.out.println(" Using address: " + kubeMQAddress);

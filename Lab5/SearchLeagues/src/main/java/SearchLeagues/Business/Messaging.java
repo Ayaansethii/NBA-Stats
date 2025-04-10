@@ -9,14 +9,12 @@ import io.kubemq.sdk.subscription.SubscribeRequest;
 import io.kubemq.sdk.subscription.SubscribeType;
 import io.kubemq.sdk.tools.Converter;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import SearchLeagues.Persistence.League_CRUD;
-import SearchLeagues.Helper.Team;
 import SearchLeagues.Helper.League;
+
 import javax.net.ssl.SSLException;
 
 public class Messaging {
@@ -30,8 +28,9 @@ public class Messaging {
         subscribeRequest.setChannel(channelName);
         subscribeRequest.setClientID(clientID);
         subscribeRequest.setSubscribeType(SubscribeType.EventsStore);
-        subscribeRequest.setEventsStoreType(EventsStoreType.StartAtSequence);
-        subscribeRequest.setEventsStoreTypeValue(0);  // 0 means start from *newest* messages only
+        subscribeRequest.setEventsStoreType(EventsStoreType.StartNewOnly);
+        subscribeRequest.setEventsStoreTypeValue(1); // 👈 Add this line
+// ✅ Correct usage
 
         StreamObserver<EventReceive> streamObserver = new StreamObserver<EventReceive>() {
             @Override
@@ -39,22 +38,18 @@ public class Messaging {
                 try {
                     String body = (String) Converter.FromByteArray(value.getBody());
                     System.out.println("📥 Received Event: " + body);
-                    String[] parts = body.split(":", 4);  // limit to 4 parts to allow empty teams
+
+                    String[] parts = body.split(":");
 
                     if (parts.length >= 3 && parts[0].equals("LEAGUE_CREATED")) {
-                        String leagueID = parts[1];
-                        String leagueName = parts[2];
-                        String[] teamNames = (parts.length == 4 && !parts[3].isEmpty()) ? parts[3].split(",") : new String[0];
+                        String leagueName = parts[1];
+                        String managerID = parts[2];
+                        String leagueID = String.valueOf(leagueName.hashCode()); // Temporary ID logic
 
                         League league = new League(leagueID, leagueName);
-                        for (String teamName : teamNames) {
-                            if (!teamName.trim().isEmpty()) {
-                                league.addTeam(new Team(teamName));
-                            }
-                        }
+                        League_CRUD.insertLeague(league);
 
-                        League_CRUD.insertLeague(league);  // still works even if no teams
-                        System.out.println("✅ League saved to Search DB: " + leagueName + " with " + teamNames.length + " teams");
+                        System.out.println("✅ League saved to Search DB: " + leagueName);
                     }
 
                 } catch (Exception ex) {
@@ -62,14 +57,15 @@ public class Messaging {
                 }
             }
 
-
             @Override
             public void onError(Throwable t) {
-                System.out.printf("❌ onError: %s", t.getMessage());
+                System.out.printf("❌ onError: %s%n", t.getMessage());
             }
 
             @Override
-            public void onCompleted() {}
+            public void onCompleted() {
+                System.out.println("🛑 Event stream completed.");
+            }
         };
 
         subscriber.SubscribeToEvents(subscribeRequest, streamObserver);

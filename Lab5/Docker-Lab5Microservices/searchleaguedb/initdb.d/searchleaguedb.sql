@@ -1,0 +1,20 @@
+CREATE DATABASE IF NOT EXISTS SearchLeagueDB;
+USE SearchLeagueDB;
+
+CREATE TABLE IF NOT EXISTS League (
+    leagueID VARCHAR(255) PRIMARY KEY,
+    leagueName VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Team (
+    teamID INT AUTO_INCREMENT PRIMARY KEY,
+    teamName VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Team_League (
+    leagueID VARCHAR(255),
+    teamID INT,
+    PRIMARY KEY (leagueID, teamID),
+    FOREIGN KEY (leagueID) REFERENCES League(leagueID),
+    FOREIGN KEY (teamID) REFERENCES Team(teamID)
+);

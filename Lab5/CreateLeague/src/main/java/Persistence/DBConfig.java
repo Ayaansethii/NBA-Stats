@@ -30,6 +30,7 @@ public class DBConfig {
     public static Connection getCon() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("Connecting to DB: " + URL);
             return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         } catch (Exception e) {
             throw new RuntimeException("Database Connection Error", e);

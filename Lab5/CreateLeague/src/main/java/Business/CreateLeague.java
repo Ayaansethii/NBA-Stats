@@ -10,7 +10,7 @@ public class CreateLeague {
         boolean created = CreateLeague_CRUD.addLeague(leagueName, managerID);
 
         if (created) {
-            String message = "LEAGUE:" + leagueName + ":" + managerID;
+            String message = "LEAGUE_CREATED:" + leagueName + ":" + managerID;
             try {
                 Messaging.sendMessage(message);
             } catch (IOException e) {

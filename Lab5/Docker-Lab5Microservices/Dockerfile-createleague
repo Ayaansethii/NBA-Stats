@@ -1,0 +1,8 @@
+FROM tomcat:8.5-jdk11-openjdk
+
+COPY CreateLeague-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/CreateLeague.war
+
+ENV JAVA_TOOL_OPTIONS="-DkubeMQAddress=kubemq:50000"
+
+
+EXPOSE 8080
